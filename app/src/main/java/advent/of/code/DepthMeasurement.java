@@ -37,11 +37,9 @@ public class DepthMeasurement {
     }
 
     private List<Integer> readMeasurementsFrom(String filename) throws IOException {
-        final List<Integer> measurements;
-        measurements = Files.lines(Paths.get(filename))
+        return Files.lines(Paths.get(filename))
                 .map(Integer::parseInt)
                 .collect(toList());
-        return measurements;
     }
 
     private int previous(List<Integer> measurements, int i) {
