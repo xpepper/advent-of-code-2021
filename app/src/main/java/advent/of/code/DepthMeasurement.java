@@ -1,6 +1,6 @@
 package advent.of.code;
 
-import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -11,7 +11,7 @@ public class DepthMeasurement {
 
     private final List<Integer> measurements;
 
-    public DepthMeasurement(String filename) throws IOException {
+    public DepthMeasurement(String filename) throws Exception {
         measurements = readMeasurementsFrom(filename);
     }
 
@@ -36,12 +36,6 @@ public class DepthMeasurement {
 
     }
 
-    private List<Integer> readMeasurementsFrom(String filename) throws IOException {
-        return Files.lines(Paths.get(filename))
-                .map(Integer::parseInt)
-                .collect(toList());
-    }
-
     private int previous(List<Integer> measurements, int i) {
         return measurements.get(i - 1) + measurements.get(i) + measurements.get(i + 1);
     }
@@ -49,4 +43,16 @@ public class DepthMeasurement {
     private int next(List<Integer> measurements, int i) {
         return measurements.get(i) + measurements.get(i + 1) + measurements.get(i + 2);
     }
+
+    private List<Integer> readMeasurementsFrom(String filename) throws Exception {
+        String filePath = pathFromResources(filename);
+        return Files.lines(Paths.get(filePath))
+                .map(Integer::parseInt)
+                .collect(toList());
+    }
+
+    private String pathFromResources(String filename) throws URISyntaxException {
+        return this.getClass().getResource(filename).toURI().getPath();
+    }
+
 }
